@@ -104,14 +104,15 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 .fuzzy-hint{text-align:center;margin-top:8px;font-size:.85rem;color:var(--fuzzy-text);font-weight:500;display:none}
 .fuzzy-hint.show{display:block}
 
-.inv-tabs{display:flex;gap:10px;margin-top:12px}
-.inv-tab{padding:10px 22px;border-radius:14px;font-size:.9rem;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer;border:1.5px solid var(--card-border);background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--text-dim);transition:all .3s;letter-spacing:0}
-.inv-tab.active,.inv-tab:hover{border-color:var(--badge-num-border);background:var(--badge-num-bg);color:var(--badge-num-text);box-shadow:0 4px 16px rgba(99,102,241,.25)}
+.inv-tabs{display:inline-flex;gap:0;margin-top:14px;background:var(--item-bg);border:1.5px solid var(--card-border);border-radius:16px;padding:5px;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,.08)}
+.inv-tab{padding:10px 26px;border-radius:12px;font-size:.88rem;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer;border:none;background:transparent;color:var(--text-faint);transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;white-space:nowrap}
+.inv-tab.active{background:var(--btn-bg);color:#fff;box-shadow:0 4px 14px rgba(99,102,241,.35),0 1px 3px rgba(0,0,0,.15)}
+.inv-tab:not(.active):hover{color:var(--text);background:rgba(255,255,255,.04)}
 .inv-tab.disabled{opacity:.2;cursor:not-allowed;pointer-events:none}
 .weight-bar{margin:0 36px 12px;padding:14px 22px;background:rgba(251,191,36,0.07);border:1.5px solid rgba(251,191,36,0.2);border-radius:16px;display:flex;justify-content:space-between;align-items:center}
 .weight-bar .w-label{font-size:.95rem;font-weight:700;color:var(--text-dim)}
 .weight-bar .w-value{font-size:1.35rem;font-weight:900;color:#fbbf24;font-family:'SF Mono','Cascadia Code',monospace;direction:ltr;letter-spacing:1px}
-@media(max-width:600px){.inv-tab{padding:7px 14px;font-size:.78rem;border-radius:10px}.weight-bar{margin:0 4px 8px;padding:10px 14px;border-radius:10px}.weight-bar .w-label{font-size:.78rem}.weight-bar .w-value{font-size:1.05rem}}
+@media(max-width:600px){.inv-tabs{border-radius:12px;padding:4px}.inv-tab{padding:8px 16px;font-size:.75rem;border-radius:10px}.weight-bar{margin:0 4px 8px;padding:10px 14px;border-radius:10px}.weight-bar .w-label{font-size:.78rem}.weight-bar .w-value{font-size:1.05rem}}
 @media(max-width:600px){
   .top-bar{top:4px;left:4px}
   .icon-btn{height:32px;min-width:32px;padding:0 8px;font-size:.72rem;border-radius:8px}
