@@ -100,45 +100,56 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 .fuzzy-hint{text-align:center;margin-top:8px;font-size:.85rem;color:var(--fuzzy-text);font-weight:500;display:none}
 .fuzzy-hint.show{display:block}
 @media(max-width:600px){
-  .top-bar{top:8px;left:8px}
-  .icon-btn{height:38px;min-width:38px;padding:0 12px;font-size:.85rem;border-radius:10px}
-  .main{margin:72px 12px 24px}
-  .search-card{padding:24px 16px;border-radius:20px}
-  .search-card h1{font-size:1.6rem}
-  .search-row{flex-direction:column}
-  #searchBtn,.btn-print{padding:16px;text-align:center}
-  #search{font-size:1.05rem;padding:16px 42px 16px 14px}
-  .res-header{padding:20px 16px}
-  .res-header .cust-name{font-size:1.25rem}
-  .res-header .badge{padding:8px 14px;font-size:.85rem}
-  .items-wrap{padding:16px}
-  .items-table td,.items-table th{padding:10px 8px;font-size:.8rem}
-  .total-bar{margin:16px 16px 20px;padding:16px}
-  .total-bar .total-value{font-size:1.3rem}
-  .result-btns{padding:0 16px 20px}
+  .top-bar{top:6px;left:6px}
+  .icon-btn{height:36px;min-width:36px;padding:0 10px;font-size:.8rem;border-radius:10px}
+  .main{margin:64px 8px 20px;width:calc(100% - 16px)}
+  .search-card{padding:20px 12px;border-radius:18px}
+  .search-card h1{font-size:1.4rem}
+  .search-card .sub{font-size:.85rem}
+  .search-row{flex-direction:column;gap:8px}
+  #searchBtn,.btn-print{padding:14px;text-align:center;font-size:1rem}
+  #search{font-size:1rem;padding:14px 38px 14px 12px}
+  .res-header{padding:16px 12px;flex-direction:column;align-items:flex-start;gap:10px}
+  .res-header .cust-name{font-size:1.15rem}
+  .res-header .inv-badge{flex-wrap:wrap;gap:6px}
+  .res-header .badge{padding:6px 12px;font-size:.8rem;border-radius:10px}
+  .items-wrap{padding:12px}
+  .items-wrap h3{font-size:.85rem;margin-bottom:12px}
+  .items-table{border-spacing:0 6px}
+  .items-table th{font-size:.7rem;padding:6px 4px;letter-spacing:0}
+  .items-table td{padding:8px 6px;font-size:.8rem;border-radius:10px}
+  .items-table .item-name{font-size:.82rem}
+  .items-table .num{white-space:nowrap}
+  .total-bar{margin:12px 12px 16px;padding:14px}
+  .total-bar .total-label{font-size:.9rem}
+  .total-bar .total-value{font-size:1.15rem}
+  .result-btns{padding:0 12px 16px}
+  .suggestions div{font-size:.9rem;padding:12px 14px}
+  .quick-list span{padding:5px 12px;font-size:.75rem}
 }
 @media print{
-  body{background:#fff!important;display:block;color:#000;font-size:14pt}
+  body{background:#fff!important;display:block;color:#000;font-size:12pt;min-height:auto}
   .bg,.top-bar,.search-card,.quick-list,.state-msg,.result-btns,.suggestions,.fuzzy-hint{display:none!important}
-  .main{margin:0!important;max-width:100%!important}
-  .result{display:block!important;background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:0!important;animation:none!important}
-  .res-header{padding:12px 0!important;border-bottom:2px solid #000!important}
-  .res-header .cust-name{font-size:20pt!important;color:#000!important;font-weight:900!important}
-  .res-header .badge{font-size:12pt!important}
+  .main{margin:0!important;max-width:100%!important;width:100%!important}
+  .result{display:block!important;background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:0!important;animation:none!important;width:100%!important}
+  .res-header{padding:8px 0!important;border-bottom:2px solid #000!important;flex-direction:column!important;align-items:flex-start!important}
+  .res-header .cust-name{font-size:16pt!important;color:#000!important;font-weight:900!important}
+  .res-header .inv-badge{flex-direction:column!important;gap:4px!important}
+  .res-header .badge{font-size:10pt!important;padding:4px 10px!important}
   .inv-badge-num{background:#eee!important;border:1px solid #999!important;color:#333!important}
   .inv-badge-date{background:#eee!important;border:1px solid #999!important;color:#333!important}
-  .items-wrap{padding:8px 0!important}
-  .items-wrap h3{font-size:16pt!important;color:#555!important;margin-bottom:12px!important}
-  .items-table{border-spacing:0 6px!important;width:100%!important}
-  .items-table th{font-size:12pt!important;color:#333!important;border-bottom:2px solid #000!important;padding:8px 12px!important}
-  .items-table td{font-size:14pt!important;background:#f9f9f9!important;color:#000!important;padding:10px 12px!important;border-radius:8px!important}
-  .items-table .item-name{color:#000!important;font-size:14pt!important}
-  .items-table .amt,.items-table .num{color:#000!important;font-size:14pt!important}
+  .items-wrap{padding:4px 0!important}
+  .items-wrap h3{font-size:12pt!important;color:#555!important;margin-bottom:8px!important}
+  .items-table{border-spacing:0 4px!important;width:100%!important}
+  .items-table th{font-size:9pt!important;color:#333!important;border-bottom:2px solid #000!important;padding:4px 6px!important}
+  .items-table td{font-size:10pt!important;background:#f9f9f9!important;color:#000!important;padding:6px 8px!important;border-radius:4px!important}
+  .items-table .item-name{color:#000!important;font-size:10pt!important}
+  .items-table .amt,.items-table .num{color:#000!important;font-size:10pt!important}
   .items-table .amt{font-weight:700!important}
-  .total-bar{margin:20px 0 0!important;background:#e8f5e9!important;border:2px solid #000!important;color:#000!important;padding:16px 20px!important}
-  .total-bar .total-label{color:#333!important;font-size:14pt!important}
-  .total-bar .total-value{color:#000!important;font-size:20pt!important}
-  @page{margin:12mm;size:auto}
+  .total-bar{margin:12px 0 0!important;background:#e8f5e9!important;border:2px solid #000!important;color:#000!important;padding:10px 14px!important}
+  .total-bar .total-label{color:#333!important;font-size:10pt!important}
+  .total-bar .total-value{color:#000!important;font-size:14pt!important}
+  @page{margin:8mm;size:auto}
 }
 </style>
 </head>
@@ -151,7 +162,7 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 <div class="main">
   <div class="search-card">
     <h1>آخر فاتورة للعميل</h1>
-    <p class="sub">ابحث عن أي عميل — حتى لو فيه خطأ إملائي بسيط</p>
+    <p class="sub">ابحث عن أي عميل لعرض آخر فاتورة</p>
     <div class="search-row">
       <div class="input-wrap">
         <span class="icn">🔍</span>
