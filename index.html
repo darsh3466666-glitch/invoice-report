@@ -80,9 +80,9 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 .inv-badge-date{background:var(--badge-date-bg);border:1px solid var(--badge-date-border);color:var(--badge-date-text)}
 .items-wrap{padding:24px 36px}
 .items-wrap h3{font-size:1.1rem;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
-.items-table{width:100%;border-collapse:separate;border-spacing:0 10px}
-.items-table th{text-align:right;padding:8px 16px;font-size:.8rem;font-weight:700;color:var(--th-color);text-transform:uppercase;letter-spacing:1px}
-.items-table td{padding:14px 16px;background:var(--item-bg);font-size:1.05rem;color:var(--text-dim);border-radius:14px}
+.items-table{width:100%;border-collapse:separate;border-spacing:0 10px;table-layout:fixed}
+.items-table th{text-align:right;padding:8px 12px;font-size:.8rem;font-weight:700;color:var(--th-color);text-transform:uppercase;letter-spacing:1px}.items-table th:nth-child(1){width:40%}.items-table th:nth-child(2){width:16.67%;text-align:center}.items-table th:nth-child(3){width:20%;text-align:center}.items-table th:nth-child(4){width:23.33%;text-align:center}
+.items-table td{padding:14px 12px;background:var(--item-bg);font-size:1.05rem;color:var(--text-dim);border-radius:14px;vertical-align:middle}.items-table td:nth-child(1){text-align:right}.items-table td:nth-child(2){text-align:center}.items-table td:nth-child(3){text-align:center}.items-table td:nth-child(4){text-align:center}
 .items-table .item-name{font-weight:700;color:var(--text);font-size:1.05rem}
 .items-table .num{font-weight:700!important;color:var(--text)!important;font-family:'SF Mono','Cascadia Code',monospace;direction:ltr;text-align:right}
 .items-table .amt{font-weight:700;color:var(--total-text)}
