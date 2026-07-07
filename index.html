@@ -103,6 +103,15 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 .quick-list span:hover{background:var(--quick-hover-bg);border-color:var(--badge-num-border);color:var(--quick-hover-text)}
 .fuzzy-hint{text-align:center;margin-top:8px;font-size:.85rem;color:var(--fuzzy-text);font-weight:500;display:none}
 .fuzzy-hint.show{display:block}
+
+.inv-tabs{display:flex;gap:10px;margin-top:12px}
+.inv-tab{padding:10px 22px;border-radius:14px;font-size:.9rem;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer;border:1.5px solid var(--card-border);background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--text-dim);transition:all .3s;letter-spacing:0}
+.inv-tab.active,.inv-tab:hover{border-color:var(--badge-num-border);background:var(--badge-num-bg);color:var(--badge-num-text);box-shadow:0 4px 16px rgba(99,102,241,.25)}
+.inv-tab.disabled{opacity:.2;cursor:not-allowed;pointer-events:none}
+.weight-bar{margin:0 36px 12px;padding:14px 22px;background:rgba(251,191,36,0.07);border:1.5px solid rgba(251,191,36,0.2);border-radius:16px;display:flex;justify-content:space-between;align-items:center}
+.weight-bar .w-label{font-size:.95rem;font-weight:700;color:var(--text-dim)}
+.weight-bar .w-value{font-size:1.35rem;font-weight:900;color:#fbbf24;font-family:'SF Mono','Cascadia Code',monospace;direction:ltr;letter-spacing:1px}
+@media(max-width:600px){.inv-tab{padding:7px 14px;font-size:.78rem;border-radius:10px}.weight-bar{margin:0 4px 8px;padding:10px 14px;border-radius:10px}.weight-bar .w-label{font-size:.78rem}.weight-bar .w-value{font-size:1.05rem}}
 @media(max-width:600px){
   .top-bar{top:4px;left:4px}
   .icon-btn{height:32px;min-width:32px;padding:0 8px;font-size:.72rem;border-radius:8px}
@@ -225,6 +234,10 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
   .total-bar{margin:4mm 0 0!important;background:#e8f5e9!important;border:1.5pt solid #000!important;color:#000!important;padding:3mm 5mm!important;border-radius:2mm!important;display:flex!important;justify-content:space-between!important}
   .total-bar .total-label{color:#333!important;font-size:10pt!important}
   .total-bar .total-value{color:#000!important;font-size:13pt!important;font-weight:900!important}
+  .weight-bar{display:flex!important;margin:2mm 0!important;background:#fff8e1!important;border:1.5pt solid #000!important;padding:2mm 5mm!important;border-radius:2mm!important}
+  .weight-bar .w-label{color:#333!important;font-size:10pt!important}
+  .weight-bar .w-value{color:#000!important;font-size:11pt!important;font-weight:800!important}
+  .inv-tabs{display:none!important}
   @page{margin:10mm;size:A4}
 }
   html,body{width:100%!important;margin:0!important;padding:0!important;background:#fff!important;color:#000!important;font-size:11pt!important;font-family:'Tajawal',sans-serif!important;min-height:auto!important;display:block!important}
@@ -249,6 +262,10 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
   .total-bar{margin:4mm 0 0!important;background:#e8f5e9!important;border:1.5pt solid #000!important;color:#000!important;padding:3mm 5mm!important;border-radius:2mm!important;display:flex!important;justify-content:space-between!important}
   .total-bar .total-label{color:#333!important;font-size:10pt!important}
   .total-bar .total-value{color:#000!important;font-size:13pt!important;font-weight:900!important}
+  .weight-bar{display:flex!important;margin:2mm 0!important;background:#fff8e1!important;border:1.5pt solid #000!important;padding:2mm 5mm!important;border-radius:2mm!important}
+  .weight-bar .w-label{color:#333!important;font-size:10pt!important}
+  .weight-bar .w-value{color:#000!important;font-size:11pt!important;font-weight:800!important}
+  .inv-tabs{display:none!important}
   @page{margin:10mm;size:A4}
 }
   .bg,.top-bar,.search-card,.quick-list,.state-msg,.result-btns,.suggestions,.fuzzy-hint{display:none!important}
@@ -303,6 +320,10 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
         <span class="badge inv-badge-num" id="invNum"></span>
         <span class="badge inv-badge-date" id="invDate"></span>
       </div>
+      <div class="inv-tabs" id="invTabs" style="display:none">
+        <button class="inv-tab active" id="tabLatest" onclick="switchInv('latest')">الأخيرة</button>
+        <button class="inv-tab" id="tabPrev" onclick="switchInv('prev')">السابقة</button>
+      </div>
     </div>
     <div class="items-wrap">
       <h3>أصناف الفاتورة</h3>
@@ -310,6 +331,10 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
         <thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead>
         <tbody id="itemsBody"></tbody>
       </table>
+    </div>
+    <div class="weight-bar" id="weightBar">
+      <span class="w-label">إجمالي الوزن</span>
+      <span class="w-value" id="weightVal"></span>
     </div>
     <div class="total-bar">
       <span class="total-label">إجمالي الفاتورة</span>
@@ -415,10 +440,39 @@ function doSearch(){
 }
 
 function showResult(name){
-  var d=DATA[name];if(!d){result.classList.remove('show');notFound.classList.add('show');return;}
+  var raw=DATA[name];if(!raw){result.classList.remove('show');notFound.classList.add('show');return;}
+  // Support both old flat format and new latest/prev format
+  var d;
+  if(raw.latest)d=raw.latest;else d=raw;
+  // Store for toggling
+  window._currentCustomer=name;
+  window._currentMode='latest';
+  renderInv(d,name);
+  result.classList.add('show');
   notFound.classList.remove('show');
+  // Show/hide tabs
+  var tabs=document.getElementById('invTabs');
+  var tabPrev=document.getElementById('tabPrev');
+  if(raw.latest && raw.prev){tabs.style.display='flex';tabPrev.classList.remove('disabled');}
+  else if(raw.latest){tabs.style.display='flex';tabPrev.classList.add('disabled');}
+  else{tabs.style.display='none';}
+  document.getElementById('tabLatest').classList.add('active');
+  tabPrev.classList.remove('active');
+}
+
+function switchInv(mode){
+  var raw=DATA[window._currentCustomer];if(!raw)return;
+  var d=mode==='prev' && raw.prev ? raw.prev : raw.latest;
+  if(!d)return;
+  window._currentMode=mode;
+  document.getElementById('tabLatest').classList.toggle('active',mode==='latest');
+  document.getElementById('tabPrev').classList.toggle('active',mode==='prev');
+  renderInv(d,window._currentCustomer);
+}
+
+function renderInv(d,name){
   document.getElementById('custName').textContent=name;
-  document.getElementById('invNum').textContent='فاتورة '+d.inv;
+  document.getElementById('invNum').textContent='\u0641\u0627\u062a\u0648\u0631\u0629 '+d.inv;
   document.getElementById('invDate').textContent=d.date;
   var rows='';
   d.items.forEach(function(it){
@@ -427,13 +481,19 @@ function showResult(name){
       '<td><span class="item-name">'+it.item+'</span></td>'+
       '<td class="num">'+qtyDisplay+'</td>'+
       '<td class="num">'+it.price.toFixed(4)+'</td>'+
-      ''+
-      '<td class="amt">'+it.total.toLocaleString('en',{minimumFractionDigits:2})+' ج.م</td>'+
+      '<td class="amt">'+it.total.toLocaleString('en',{minimumFractionDigits:2})+' \u062c.\u0645</td>'+
       '</tr>';
   });
   document.getElementById('itemsBody').innerHTML=rows;
-  document.getElementById('totalVal').textContent=d.total.toLocaleString('en',{minimumFractionDigits:2})+' ج.م';
-  result.classList.add('show');
+  document.getElementById('totalVal').textContent=d.total.toLocaleString('en',{minimumFractionDigits:2})+' \u062c.\u0645';
+  // Weight
+  if(d.weight_kg!=null){
+    var w=d.weight_kg;var ws=w%1===0?w.toFixed(0):parseFloat(w.toFixed(2)).toString();
+    document.getElementById('weightVal').textContent=ws+' \u0643\u062c\u0645';
+    document.getElementById('weightBar').style.display='flex';
+  }else{
+    document.getElementById('weightBar').style.display='none';
+  }
 }
 
 search.addEventListener('input',function(){
