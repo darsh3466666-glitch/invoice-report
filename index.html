@@ -78,7 +78,7 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 .res-header .badge{padding:10px 20px;border-radius:14px;font-size:.95rem;font-weight:700}
 .inv-badge-num{background:var(--badge-num-bg);border:1px solid var(--badge-num-border);color:var(--badge-num-text)}
 .inv-badge-date{background:var(--badge-date-bg);border:1px solid var(--badge-date-border);color:var(--badge-date-text)}
-.items-wrap{padding:24px 36px}
+.items-wrap{padding:24px 36px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .items-wrap h3{font-size:1.1rem;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
 .items-table{width:100%;border-collapse:separate;border-spacing:0 10px}
 .items-table th{text-align:right;padding:8px 16px;font-size:.8rem;font-weight:700;color:var(--th-color);text-transform:uppercase;letter-spacing:1px}
@@ -106,7 +106,7 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 @media(max-width:600px){
   .top-bar{top:4px;left:4px}
   .icon-btn{height:32px;min-width:32px;padding:0 8px;font-size:.72rem;border-radius:8px}
-  .main{margin:56px 6px 16px;width:auto;max-width:100%}
+  .main{margin:56px 4px 16px;width:auto;max-width:100%}
   .search-card{padding:16px 10px;border-radius:16px}
   .search-card h1{font-size:1.25rem;margin-bottom:4px}
   .search-card .sub{font-size:.75rem;margin-bottom:14px}
@@ -119,21 +119,26 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
   .res-header .cust-name{font-size:1.1rem;line-height:1.3}
   .res-header .inv-badge{flex-direction:column;gap:4px}
   .res-header .badge{padding:5px 10px;font-size:.75rem;border-radius:8px;display:inline-block;width:fit-content}
-  .items-wrap{padding:6px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  
+  /* Table wrapper with horizontal scroll */
+  .items-wrap{padding:6px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .items-wrap::-webkit-scrollbar{height:4px}
+  .items-wrap::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:2px}
   .items-wrap h3{font-size:.78rem;margin-bottom:6px;padding:0 4px}
-  .items-table{width:100%;min-width:100%;border-spacing:0 3px;table-layout:auto}
-  .items-table thead tr th:nth-child(1){padding:6px 4px;font-size:.62rem;white-space:nowrap;text-align:right}
-  .items-table thead tr th:nth-child(2){padding:6px 6px;font-size:.62rem;white-space:nowrap;text-align:center}
-  .items-table thead tr th:nth-child(3){padding:6px 6px;font-size:.62rem;white-space:nowrap;text-align:center}
-  .items-table thead tr th:nth-child(4){padding:6px 6px;font-size:.62rem;white-space:nowrap;text-align:center}
-  .items-table td{padding:7px 3px;font-size:.68rem;border-radius:3px;vertical-align:middle}
+  
+  /* Force table wide enough to need scroll */
+  .items-table{width:550px;min-width:550px;border-spacing:0 4px;table-layout:fixed}
+  .items-table th{padding:7px 8px;font-size:.68rem;white-space:nowrap;text-align:center}
+  .items-table th:nth-child(1){text-align:right}
+  .items-table td{padding:8px 8px;font-size:.75rem;border-radius:4px;vertical-align:middle;background:var(--item-bg)}
   .items-table td:nth-child(1){text-align:right}
   .items-table td:nth-child(2){text-align:center;white-space:nowrap}
   .items-table td:nth-child(3){text-align:center;white-space:nowrap}
   .items-table td:nth-child(4){text-align:center;white-space:nowrap}
-  .items-table .item-name{font-size:.7rem;line-height:1.4}
-  .items-table .num{text-align:center!important;direction:ltr;display:inline;white-space:nowrap}
-  .items-table .amt{text-align:center!important;direction:ltr;font-weight:700;white-space:nowrap}
+  .items-table .item-name{font-size:.78rem;line-height:1.4}
+  .items-table .num{text-align:center!important;direction:ltr}
+  .items-table .amt{text-align:center!important;direction:ltr;font-weight:700}
+  
   .total-bar{margin:8px 4px 14px;padding:10px 14px;border-radius:10px}
   .total-bar .total-label{font-size:.78rem}
   .total-bar .total-value{font-size:.95rem}
