@@ -403,6 +403,25 @@ function renderInv(d,name){
   }else{
     document.getElementById('weightBar').style.display='none';
   }
+  // Balance
+  var custData=DATA[window._currentCustomer];
+  if(custData&&custData.balance!=null){
+    var bal=custData.balance;
+    var bs=custData.balance_status||'';
+    var bad=document.getElementById('balBadge');
+    var bv=document.getElementById('balVal');
+    var bl=document.getElementById('balLabel');
+    var ab=Math.abs(bal);
+    var fbal=ab%1===0?ab.toFixed(0):parseFloat(ab.toFixed(2)).toString();
+    bv.textContent=fbal+' ج.م';
+    bad.style.display='inline-flex';
+    bad.classList.remove('debtor','creditor','zero');
+    if(bal>0){bad.classList.add('debtor');bl.textContent='مدين: ';}
+    else if(bal<0){bad.classList.add('creditor');bl.textContent='دائن: ';}
+    else{bad.classList.add('zero');bl.textContent='الرصيد: ';}
+  }else{
+    document.getElementById('balBadge').style.display='none';
+  }
 }
 
 search.addEventListener('input',function(){
