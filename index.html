@@ -310,19 +310,46 @@ function levenshtein(a,b){var m=a.length,n=b.length,dp=[],i,j;for(i=0;i<=m;i++)d
 function smartSearch(query){
   if(!DATA_READY) return null;
   var q=query.trim();if(!q)return null;
+  // 1. Exact match
   for(var i=0;i<NAMES.length;i++)if(NAMES[i]===q)return{name:NAMES[i],method:'exact'};
   var nq=nn(q);
+  // 2. Normalized exact match
   for(var i=0;i<NAMES.length;i++)if(nn(NAMES[i])===nq)return{name:NAMES[i],method:'normalized'};
+  // 3. Contains (exact substring)
   var contains=[];for(i=0;i<NAMES.length;i++)if(NAMES[i].indexOf(q)!==-1)contains.push(NAMES[i]);
   if(contains.length===1)return{name:contains[0],method:'contains'};
-  var normContains=[];for(i=0;i<NAMES.length;i++)if(nn(NAMES[i]).indexOf(nq)!==-1)normContains.push(NAMES[i]);
-  if(normContains.length===1)return{name:normContains[0],method:'fuzzy_contains'};
-  var words=nq.split(/\s+/).filter(function(w){return w.length>1;});
-  if(words.length>0){
-    var wm=[];for(i=0;i<NAMES.length;i++){var nn2=nn(NAMES[i]);var ok=true;for(var w=0;w<words.length;w++){if(nn2.indexOf(words[w])===-1){ok=false;break;}}if(ok)wm.push(NAMES[i]);}
-    if(wm.length===1)return{name:wm[0],method:'word_match'};
-    if(wm.length>1){wm.sort(function(a,b){var na=nn(a),nb=nn(b);var ca=0,cb=0;for(w=0;w<words.length;w++){if(na.indexOf(words[w])!==-1)ca++;if(nb.indexOf(words[w])!==-1)cb++;}return cb-ca;});return{name:wm[0],method:'word_match',alternatives:wm.slice(0,5)};}
+  // 4. Token overlap scoring (word-by-word matching)
+  var qWords=nq.split(/\s+/).filter(function(w){return w.length>1;});
+  if(qWords.length>0){
+    var scored=[];
+    for(i=0;i<NAMES.length;i++){
+      var nameNorm=nn(NAMES[i]);
+      var nameWords=nameNorm.split(/\s+/).filter(function(w){return w.length>1;});
+      var matchCount=0;
+      for(var wi=0;wi<qWords.length;wi++){
+        for(var ni=0;ni<nameWords.length;ni++){
+          if(nameWords[ni]===qWords[wi]||nameWords[ni].indexOf(qWords[wi])!==-1||qWords[wi].indexOf(nameWords[ni])!==-1){matchCount++;break;}
+        }
+      }
+      if(matchCount===0)continue;
+      var extra=Math.abs(nameWords.length-qWords.length);
+      var score=matchCount*100-extra*10;
+      if(nameNorm===nq)score+=5000;
+      if(nq.indexOf(nameNorm)!==-1||nameNorm.indexOf(nq)!==-1)score+=500;
+      scored.push({name:NAMES[i],score:score,matchCount:matchCount});
+    }
+    scored.sort(function(a,b){return b.score-a.score;});
+    if(scored.length===1)return{name:scored[0].name,method:'word_match'};
+    if(scored.length>1){
+      // Only auto-select if top result is clearly better than second
+      if(scored[0].score>scored[1].score+50){
+        return{name:scored[0].name,method:'word_match'};
+      }
+      var alts=scored.slice(0,5).map(function(s){return s.name;});
+      return{name:scored[0].name,method:'word_match',alternatives:alts};
+    }
   }
+  // 5. Fallback: fuzzy distance for short queries
   if(nq.length>=3){var bestDist=999,bestName=null,maxDist=nq.length<=5?1:2;for(i=0;i<NAMES.length;i++){var d=levenshtein(nq,nn(NAMES[i]));if(d<bestDist){bestDist=d;bestName=NAMES[i];}}if(bestName&&bestDist<=maxDist)return{name:bestName,method:'fuzzy',distance:bestDist};}
   return null;
 }
