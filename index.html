@@ -289,6 +289,11 @@ function loadData(){
     .then(function(d){
       DATA = d;
       NAMES = Object.keys(DATA).sort();
+      // Build display name map (full name from balance sheet)
+      DISPLAY_NAME = {};
+      for(var k in DATA){
+        DISPLAY_NAME[k] = DATA[k].display_name || k;
+      }
       DATA_READY = true;
       loading.classList.remove('show');
       document.getElementById('loadingError').classList.remove('show');
@@ -407,7 +412,8 @@ function switchInv(mode){
 }
 
 function renderInv(d,name){
-  document.getElementById('custName').textContent=name;
+  var dn = DISPLAY_NAME[name] || name;
+  document.getElementById('custName').textContent=dn;
   document.getElementById('invNum').textContent='\u0641\u0627\u062a\u0648\u0631\u0629 '+d.inv;
   document.getElementById('invDate').textContent=d.date;
   var rows='';
@@ -456,7 +462,7 @@ search.addEventListener('input',function(){
   var nq=nn(q),matches=[];
   for(var i=0;i<NAMES.length&&matches.length<8;i++){if(NAMES[i].indexOf(q)!==-1||nn(NAMES[i]).indexOf(nq)!==-1)matches.push(NAMES[i]);}
   if(!matches.length){suggestions.classList.remove('show');return;}
-  suggestions.innerHTML=matches.map(function(m){return '<div data-name="'+m.replace(/'/g,"\\'")+'">'+m+'</div>';}).join('');
+  suggestions.innerHTML=matches.map(function(m){var dn=DISPLAY_NAME[m]||m;return '<div data-name="'+m.replace(/'/g,"\\'")+'">'+dn+'</div>';}).join('');
   suggestions.classList.add('show');
   suggestions.querySelectorAll('div').forEach(function(el){el.addEventListener('click',function(){selectName(this.getAttribute('data-name'));});});
 });
