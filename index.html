@@ -66,14 +66,14 @@ body{font-family:'Tajawal',-apple-system,'SF Pro Display',sans-serif;background:
 #searchBtn:active{transform:translateY(0)}
 .suggestions{position:absolute;top:calc(100%+8px);left:0;right:0;background:var(--sugg-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--card-border);border-radius:16px;max-height:260px;overflow-y:auto;display:none;z-index:10;box-shadow:0 20px 50px var(--card-shadow)}
 .suggestions.show{display:block}
-.suggestions div{padding:14px 20px;cursor:pointer;font-size:1.05rem;font-weight:500;color:var(--text-dim);border-bottom:1px solid var(--quick-border);transition:all .15s}
+.suggestions div{padding:14px 20px;cursor:pointer;font-size:1.05rem;font-weight:500;color:var(--text-dim);border-bottom:1px solid var(--quick-border);transition:all .15s;white-space:normal;word-break:break-word;overflow-wrap:break-word}
 .suggestions div:last-child{border-bottom:none}
 .suggestions div:hover,.suggestions div.active{background:var(--sugg-hover);color:var(--text)}
-.result{background:var(--card-bg);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid var(--card-border);border-radius:28px;padding:0;display:none;overflow:hidden;box-shadow:0 25px 60px var(--card-shadow);animation:fadeUp .4s ease}
+.result{background:var(--card-bg);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid var(--card-border);border-radius:28px;padding:0;display:none;box-shadow:0 25px 60px var(--card-shadow);animation:fadeUp .4s ease;overflow:hidden}
 .result.show{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .res-header{padding:32px 36px 24px;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-.res-header .cust-name{font-size:1.6rem;font-weight:800;color:var(--text)}
+.res-header .cust-name{font-size:1.6rem;font-weight:800;color:var(--text);word-break:break-word;overflow-wrap:break-word;max-width:100%}
 .res-header .inv-badge{display:flex;gap:12px}
 .res-header .badge{padding:10px 20px;border-radius:14px;font-size:.95rem;font-weight:700}
 .inv-badge-num{background:var(--badge-num-bg);border:1px solid var(--badge-num-border);color:var(--badge-num-text)}
